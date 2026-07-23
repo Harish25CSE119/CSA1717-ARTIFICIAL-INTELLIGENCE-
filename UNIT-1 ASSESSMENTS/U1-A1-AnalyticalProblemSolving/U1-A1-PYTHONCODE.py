@@ -48,35 +48,62 @@ print("\nGoal Achieved : 2 gallons in 4-gallon jug")
 # QUESTION 2 - MARS ROVER AGENT
 # ============================================================
 
-print("\n==============================")
-print("QUESTION 2 : MARS ROVER AGENT")
-print("==============================")
+import random
 
 class MarsRover:
+    def __init__(self):
+        self.energy = 100
+        self.samples_collected = 0
+        self.data_transmitted = 0
+        self.position = (0, 0)
 
+    # Perceive the environment
     def perceive(self):
-        print("\nPercepts")
-        print("Camera : Rocks detected")
-        print("Temperature : -55 C")
-        print("Battery : 82%")
-        print("Obstacle : None")
+        percept = {
+            "terrain": random.choice(["Rocky", "Sandy", "Flat"]),
+            "rock_detected": random.choice([True, False]),
+            "temperature": random.randint(-90, 20),
+            "obstacle": random.choice([True, False])
+        }
+        print("\nPercepts:", percept)
+        return percept
 
-    def decide(self):
-        print("\nDecision")
-        print("Move Forward")
-        print("Collect Rock Sample")
+    # Move to a new position
+    def move(self, direction):
+        x, y = self.position
 
-    def act(self):
-        print("\nActions")
-        print("Moving...")
-        print("Collecting Sample...")
-        print("Analyzing Sample...")
-        print("Sending Data to Earth")
+        if direction == "North":
+            self.position = (x, y + 1)
+        elif direction == "South":
+            self.position = (x, y - 1)
+        elif direction == "East":
+            self.position = (x + 1, y)
+        elif direction == "West":
+            self.position = (x - 1, y)
 
-rover = MarsRover()
-rover.perceive()
-rover.decide()
-rover.act()
+        self.energy -= 5
+        print("Moved", direction, "to", self.position)
+
+    # Analyze rock sample
+    def analyze_sample(self):
+        self.samples_collected += 1
+        self.energy -= 10
+        print("Rock sample analyzed.")
+
+    # Send collected data
+    def transmit_data(self):
+        self.data_transmitted += 1
+        self.energy -= 2
+        print("Data transmitted to Earth.")
+
+    # Performance evaluation
+    def performance(self):
+        score = (self.samples_collected * 20) + \
+                (self.data_transmitted * 10) + \
+                self.energy
+
+        print("\nPerformance Report")
+        print("------------------
 
 
 # ============================================================
